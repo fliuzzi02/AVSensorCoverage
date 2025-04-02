@@ -32,7 +32,12 @@ def run(args):
         args.update(gui_instance.get_inputs())
     logging.info("Inputs evaluated -> now loading vehicle")
 
+    # Z is the vertical axis
+    # Positive X is to the front of the vehicle
+    # Positive Y is to the left of the vehicle
+    # Positive Z is up
     vehicle = pv.read(args.vehicle_path).triangulate()
+    vehicle.plot()
     logging.info("Vehicle loaded -> creating grid")
 
     grid = Grid(
