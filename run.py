@@ -37,7 +37,7 @@ def run(args):
     # Positive Y is to the left of the vehicle
     # Positive Z is up
     vehicle = pv.read(args.vehicle_path).triangulate()
-    vehicle.plot()
+    # vehicle.plot()
     logging.info("Vehicle loaded -> creating grid")
 
     grid = Grid(

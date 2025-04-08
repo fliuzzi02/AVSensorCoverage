@@ -1,49 +1,94 @@
 lidars:
-  - name: LiDAR
+  - name: Ouster-OS1
     type: LiDAR
     position:
-      x: 2.5
-      y: 0
-      z: 2.4
-    orientation:
-      pitch: 0
-      yaw: 0
-      roll: 0
-    fov_h: 360
-    fov_v: 70
-    detection_range: 150
-    min_range: 1
-
-cameras:
-  - name: Camera
-    type: Camera
-    position:
-      x: 5
+      x: 0
       y: 0
       z: 1.8
     orientation:
       pitch: 0
       yaw: 0
       roll: 0
-    fov: 70
-    max_dist: 50
-    min_dist: 0.1
-    n_pixels:
-      width: 1280
-      height: 720
+    fov_h: 360
+    fov_v: 42.2
+    detection_range: 100
+    min_range: 0.1
 
 radars:
-  - name: Radar
+  - name: Radar Front
     type: Radar
     position:
-      x: 5
+      x: 1.5
       y: 0
-      z: 0.4
+      z: 0.5
     orientation:
       pitch: 0
       yaw: 0
       roll: 0
-    fov_h: 45
+    fov_h: 18
     fov_v: 20
-    detection_range: 200
-    min_range: 1
+    detection_range: 250
+    min_range: 0.1
+
+  - name: Radar Rear
+    type: Radar
+    position:
+      x: -1.5
+      y: 0
+      z: 0.5
+    orientation:
+      pitch: 0
+      yaw: 180
+      roll: 0
+    fov_h: 90
+    fov_v: 20
+    detection_range: 60
+    min_range: 0.1
+
+  - name: Radar Left
+    type: Radar
+    position:
+      x: 0
+      y: 0.8
+      z: 0.5
+    orientation:
+      pitch: 0
+      yaw: 90
+      roll: 0
+    fov_h: 90
+    fov_v: 20
+    detection_range: 60
+    min_range: 0.1
+
+  - name: Radar Right
+    type: Radar
+    position:
+      x: 0
+      y: -0.8
+      z: 0.5
+    orientation:
+      pitch: 0
+      yaw: -90
+      roll: 0
+    fov_h: 90
+    fov_v: 20
+    detection_range: 60
+    min_range: 0.1
+
+#cameras:
+#  - name: Camera
+#    type: Camera
+#    position:
+#      x: 5
+#      y: 0
+#      z: 1.8
+#    orientation:
+#      pitch: 0
+#      yaw: 0
+#      roll: 0
+#    fov: 70
+#    max_dist: 50
+#    min_dist: 0.1
+#    n_pixels:
+#      width: 1280
+#      height: 720
