@@ -2,9 +2,9 @@ lidars:
   - name: Ouster-OS1
     type: LiDAR
     position:
-      x: 0
+      x: 0.25
       y: 0
-      z: 1.8
+      z: 1.4
     orientation:
       pitch: 0
       yaw: 0
@@ -33,7 +33,7 @@ radars:
   - name: Radar Rear
     type: Radar
     position:
-      x: -1.5
+      x: -1.3
       y: 0
       z: 0.5
     orientation:
@@ -48,9 +48,9 @@ radars:
   - name: Radar Left
     type: Radar
     position:
-      x: 0
-      y: 0.8
-      z: 0.5
+      x: 0.25
+      y: 0.4
+      z: 1.2
     orientation:
       pitch: 0
       yaw: 90
@@ -63,9 +63,9 @@ radars:
   - name: Radar Right
     type: Radar
     position:
-      x: 0
-      y: -0.8
-      z: 0.5
+      x: 0.25
+      y: -0.4
+      z: 1.2
     orientation:
       pitch: 0
       yaw: -90
@@ -75,20 +75,71 @@ radars:
     detection_range: 60
     min_range: 0.1
 
-#cameras:
-#  - name: Camera
-#    type: Camera
-#    position:
-#      x: 5
-#      y: 0
-#      z: 1.8
-#    orientation:
-#      pitch: 0
-#      yaw: 0
-#      roll: 0
-#    fov: 70
-#    max_dist: 50
-#    min_dist: 0.1
-#    n_pixels:
-#      width: 1280
-#      height: 720
+cameras:
+  - name: Camera Front
+    type: Camera
+    position:
+      x: 0.25
+      y: 0
+      z: 1.3
+    orientation:
+      pitch: 0
+      yaw: 0
+      roll: 0
+    fov: 70
+    max_dist: 100
+    min_dist: 0.1
+    n_pixels:
+      width: 2880
+      height: 1860
+
+  - name: Camera Rear
+    type: Camera
+    position:
+      x: 0.2
+      y: 0
+      z: 1.3
+    orientation:
+      pitch: 0
+      yaw: 180
+      roll: 0
+    fov: 70
+    max_dist: 100
+    min_dist: 0.1
+    n_pixels:
+      width: 2880
+      height: 1860
+
+  - name: Camera Left
+    type: Camera
+    position:
+      x: 0.25
+      y: 0.1
+      z: 1.3
+    orientation:
+      pitch: 0
+      yaw: 45
+      roll: 0
+    fov: 70
+    max_dist: 100
+    min_dist: 0.1
+    n_pixels:
+      width: 2880
+      height: 1860
+
+  - name: Camera Right
+    type: Camera
+    position:
+      x: 0.25
+      y: -0.1
+      z: 1.3
+    orientation:
+      pitch: 0
+      yaw: -45
+      roll: 0
+    fov: 70
+    max_dist: 100
+    min_dist: 0.1
+    n_pixels:
+      width: 2880
+      height: 1860
