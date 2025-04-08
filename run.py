@@ -10,6 +10,7 @@ from plotting.report import create_report
 from plotting.plots import create_plots
 from plotting.plot_helpers import metrics, setup_plot_args, output_folder
 from sensors.sensor_helpers import load_sensorset
+from sensors.sensor_set import SensorSet
 from utils.gui import GUI
 
 # PROGRAM OPTIONS
@@ -24,7 +25,7 @@ def run(args):
     """
 
     logging.info("Starting Programm")
-    sensors = load_sensorset(args.sensor_setup)
+    sensor_set = SensorSet(load_sensorset(args.sensor_setup))
 
     if args.gui_mode:
         gui_instance = GUI()
@@ -52,15 +53,21 @@ def run(args):
     )
     logging.info("Grid created -> starting single sensor coverage calculation")
 
-    ix = 1
-    max_ix = len(sensors)
-    for sensor in sensors:
-        logging.info(f"Calculating Single Sensor {ix} of {max_ix}")
-        sensor.calculate_coverage(grid, vehicle)
-        ix += 1
+    # calculate the coverage of each sensor in the grid
+    sensor_set.calculate_coverage(grid, vehicle)
     logging.info("Finished single sensor calculation -> calculating grid coverage")
 
-    grid.combine_data(sensors)
+    # Combine the data of all sensors in the grid
+    grid.combine_data(sensor_set.get_sensors())
+    logging.info("Grid coverage calculated -> Value: " + str(grid.get_coverage()))
+
+    # HERE I CAN LOOP ON THE GENETIC ALGORITHM
+    # random_sensor_sets = sensor_set.generate_random_population(feasible_area)
+    # new_generation = sensor_set.improve_population(random_sensor_sets)
+    # best_candidate = sensor_set.get_best_candidate(new_generation)
+    # repeat until the best candidate is good enough
+
+    # Calculate the metrics for the grid
     grid.set_metrics_no_condition()
     grid.set_metrics_condition(
         n1=args.conditions.N1,
@@ -91,7 +98,7 @@ def run(args):
     if args.create_report:
         logging.info("Creating report")
         create_report(
-            sensors,
+            sensor_set.get_sensors(),
             slices,
             vehicle,
             grid,
@@ -109,7 +116,7 @@ def run(args):
         logging.info("creating plots")
         create_plots(
             grid,
-            sensors,
+            sensor_set.get_sensors(),
             vehicle,
             args.save_path,
             args.folder_name,
@@ -122,7 +129,7 @@ def run(args):
     if args.save_variables:
         save_path = output_folder(args.save_path, args.folder_name) / "save_data.pkl"
         with open(save_path, "wb") as f:
-            pickle.dump({"grid": grid, "vehicle": vehicle, "sensors": sensors,
+            pickle.dump({"grid": grid, "vehicle": vehicle, "sensors": sensor_set.get_sensors(),
                          "args": args}, f)
 
 

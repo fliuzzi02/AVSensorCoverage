@@ -7,6 +7,43 @@ from . import grid_helpers as helpers
 
 # this class models the environment of the vehicle as a uniform grid
 class Grid:
+    """
+    Grid Class
+    The `Grid` class represents a 3D grid structure used for sensor coverage analysis in autonomous vehicles. 
+    It provides methods to initialize the grid, calculate coverage metrics, and manage spatial data.
+    Attributes:
+        spacing (float): The spacing between grid points.
+        mesh (pv.ImageData): The 3D grid mesh created using PyVista.
+        car (object): The car object representing the vehicle in the grid.
+        car_value (int): Scalar value representing the car in the grid.
+        car_points_indices (np.ndarray): Indices of points inside the car.
+        outside_indices (np.ndarray): Indices of points outside the car.
+        remove_indices (np.ndarray): Indices of points to be removed from calculations.
+        metrics (np.ndarray): Array to store calculated metrics for different areas.
+        blind_spot_volume (float): Volume of blind spots in the grid.
+        blind_spots (np.ndarray): Points representing blind spots in the grid.
+        car_area_indices (np.ndarray): Indices of points in the car area.
+        calc_points (np.ndarray): Points used for calculations after removing unwanted points.
+        far_front_left_indices, far_front_center_indices, ..., far_rear_right_indices (np.ndarray): 
+            Indices representing different surrounding areas of the car.
+    Methods:
+        __init__(dim_x, dim_y, dim_z, spacing, center, car, cells=True, advanced=False, alpha=15, beta=10, dist=5):
+            Initializes the grid with specified dimensions, spacing, and car object.
+        slice_coordinate_axis(dist, normal="z"):
+            Creates a cross-section of the grid along a specified axis.
+        combine_data(sensors):
+            Combines sensor data to calculate overall coverage and stores it in the grid.
+        set_metrics_no_condition(metrics_array=None, all_metrics=True):
+            Calculates and sets metrics without any specific conditions.
+        set_metrics_condition(metrics_array=None, all_metrics=True, n1=3, n2=2, n6=2, n7=2, n8=2):
+            Calculates and sets metrics with specified conditions.
+        __get_indices_advanced():
+            Private method to calculate advanced indices for points inside the car using convex hull.
+        __get_corner_indices(indices, corner, dist, angle_start, angle_end, far=False):
+            Private method to determine points within an angular section.
+        __get_area_indices(index):
+            Private helper method to map area indices to corresponding grid points.
+    """
     def __init__(
         self,
         dim_x,
@@ -438,6 +475,12 @@ class Grid:
         np.put_along_axis(expanded_data, self.outside_indices, combined_results, axis=0)
 
         self.mesh.cell_data["sensorset"] = expanded_data
+
+    # Callable function that returns the fraction of visible area
+    def get_coverage(self):
+        # get the number of points that are visible and divide by the number of points in the grid
+        visible_points = np.sum(self.mesh.cell_data["sensorset"][:, 0] == 1)
+        return visible_points / self.points.shape[0]
 
     # callable function, that sets the metrics with no condition
     def set_metrics_no_condition(self, metrics_array=None, all_metrics=True):
