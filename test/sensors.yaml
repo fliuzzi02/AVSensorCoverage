@@ -25,9 +25,9 @@ radars:
       pitch: 0
       yaw: 0
       roll: 0
-    fov_h: 18
+    fov_h: 90
     fov_v: 20
-    detection_range: 250
+    detection_range: 60
     min_range: 0.1
 
   - name: Radar Rear

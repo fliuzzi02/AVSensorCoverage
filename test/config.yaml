@@ -1,8 +1,8 @@
 # Grid Settings
-dim_x: 20
-dim_y: 12
+dim_x: 30
+dim_y: 20
 dim_z: 3
-spacing: 0.1
+spacing: 0.05
 origin: [0, 0, 0]
 nearfield_dist: 2
 advanced: True
@@ -17,5 +17,5 @@ conditions:
 
 # Z-Slice Settings
 slice:
-  number: 5
+  number: 4
   distance: 0.5

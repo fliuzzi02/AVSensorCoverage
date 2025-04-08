@@ -71,10 +71,11 @@ def run(args):
     )
     logging.info("Grid coverage calculated -> preparing report and plots")
 
+    # Here i can edit the height of the slices that will be analyzed and plotted
     slices = [
-        Slice(grid, 1.5, normal="x"),
+        Slice(grid, 0, normal="x"),
         Slice(grid, 0, normal="y"),
-        Slice(grid, 0.01),
+        Slice(grid, 0.5, normal="z"),
     ]
     slices.extend(
         [
