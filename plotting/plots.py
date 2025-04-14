@@ -63,6 +63,7 @@ def create_plots(grid, sensors, vehicle, path, name, slice_x, slice_y, slice_z):
     p1.add_text("Toggle boxes to turn sensor mesh on/off", position="lower_left", font_size=9)
     p1.add_axes()
     p1.show_grid()
+    p1.camera_position = [(10, 10, 10), (0, 0, 0), (0, 0, 1)]  # Initial camera position
     p1.save_graphic(overall_path / "plot1.pdf")
     p1.show()
 
