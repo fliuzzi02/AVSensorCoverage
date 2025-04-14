@@ -1,6 +1,6 @@
 # Grid Settings
-dim_x: 30
-dim_y: 20
+dim_x: 50
+dim_y: 30
 dim_z: 3
 spacing: 0.1
 origin: [0, 0, 0]

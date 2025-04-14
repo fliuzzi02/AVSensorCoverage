@@ -82,7 +82,7 @@ cameras:
 lidars:
 - detection_range: 20
   fov_h: 360
-  fov_v: 20.0
+  fov_v: 20
   min_range: 0.1
   name: LiDAR360
   orientation:
@@ -90,9 +90,9 @@ lidars:
     roll: 0.0
     yaw: 0.0
   position:
-    x: 1.35
+    x: 1.350000023841858
     y: 0
-    z: 1.65
+    z: 1.649999976158142
   pps: 700000
   rps: 10
   type: Roof LiDAR
@@ -109,10 +109,61 @@ radars:
     roll: 0.0
     yaw: 0.0
   position:
-    x: 3.1
+    x: 3.0999999046325684
     y: 0
     z: 0.5
   source: engine
   type: Front Radar
   update_hz: 30
   uuid: F0CAACE1-4899-232F-36AA-6D92264A1B10
+- detection_range: 60
+  fov_h: 120
+  fov_v: 8
+  min_range: 0.1
+  name: Radar_L
+  orientation:
+    pitch: 0.0
+    roll: 0.0
+    yaw: 89.99999803884896
+  position:
+    x: 1.350000023841858
+    y: 0.550000011920929
+    z: 1.5499999523162842
+  source: engine
+  type: Left Radar
+  update_hz: 30
+  uuid: 81A5C57B-4293-761A-D064-209151D4B825
+- detection_range: 60
+  fov_h: 120
+  fov_v: 8
+  min_range: 0.1
+  name: Radar_R
+  orientation:
+    pitch: 0.0
+    roll: 0.0
+    yaw: -89.99999803884896
+  position:
+    x: 1.350000023841858
+    y: -0.550000011920929
+    z: 1.5499999523162842
+  source: engine
+  type: Rear Radar
+  update_hz: 30
+  uuid: 70E3E48C-4C2E-BC5F-61FD-A4BAD53A9BDE
+- detection_range: 60
+  fov_h: 120
+  fov_v: 8
+  min_range: 0.1
+  name: Radar_RR
+  orientation:
+    pitch: 0.0
+    roll: 0.0
+    yaw: 180.0
+  position:
+    x: -0.550000011920929
+    y: 0
+    z: 0.5
+  source: engine
+  type: Rear Radar
+  update_hz: 30
+  uuid: 2393ED2E-44F6-A36A-5A67-EDB9450DC685

@@ -228,7 +228,7 @@
 							"update_hz": 30,
 							"location":
 							{
-								"x": 3,
+								"x": 3.0999999046325684,
 								"y": 0,
 								"z": 0.5,
 								"type": "location_relative"
