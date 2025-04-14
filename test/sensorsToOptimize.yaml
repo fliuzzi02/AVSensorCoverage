@@ -1,0 +1,17 @@
+cameras:
+  - name: Camera Front
+    type: Camera
+    position:
+      x: 0
+      y: 0
+      z: 0
+    orientation:
+      pitch: 0
+      yaw: 0
+      roll: 0
+    fov: 70
+    max_dist: 100
+    min_dist: 0.1
+    n_pixels:
+      width: 2880
+      height: 1860

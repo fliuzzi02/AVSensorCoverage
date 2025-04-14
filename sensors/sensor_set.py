@@ -15,3 +15,7 @@ class SensorSet:
             logging.info(f"Calculating Single Sensor {ix} of {max_ix}")
             sensor.calculate_coverage(grid, vehicle)
             ix += 1
+
+    def print(self):
+        for sensor in self.sensors:
+            sensor.print()

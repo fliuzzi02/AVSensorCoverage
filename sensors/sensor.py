@@ -67,6 +67,44 @@ class Sensor:
             [self.position[0] + x, self.position[1] + y, self.position[2] + z]
         )
 
+    def set_pose(self, x=0, y=0, z=0, pitch=0, yaw=0, roll=0):
+        """
+        Sets the pose of the sensor.
+
+        :param x: x-coordinate of the sensor.
+        :param y: y-coordinate of the sensor.
+        :param z: z-coordinate of the sensor.
+        :param pitch: Pitch angle in degrees.
+        :param yaw: Yaw angle in degrees.
+        :param roll: Roll angle in degrees.
+        """
+        # Bring the sensor to the origin
+        self.translate(-self.position[0], -self.position[1], -self.position[2])
+        # Rotate the sensor to the desired orientation minus the current orientation
+        self.rotate(
+            local=False,
+            pitch=pitch - self.get_pose(as_euler=True)[3],
+            yaw=yaw - self.get_pose(as_euler=True)[4],
+            roll=roll - self.get_pose(as_euler=True)[5],
+        )
+        # Translate the sensor to the desired position
+        self.translate(x, y, z)
+
+    def get_pose(self, as_euler=True):
+        """
+        Returns the position of the sensor as a numpy array.
+
+        :param as_euler: If True, returns orientation as Euler angles (degrees).
+                     If False, returns the rotation matrix.
+        :return: Pose as (x, y, z) coordinates plus orientation as Euler angles (pitch, yaw, roll) or rotation matrix.
+        """
+        if as_euler:
+            rotation = R.from_matrix(self.coordinate_system)
+            euler_angles = rotation.as_euler("yzx", degrees=True)
+            return np.concatenate((self.position, euler_angles))
+        else:
+            return np.concatenate((self.position, self.coordinate_system.flatten()))
+
     # private function, that checks whether a computed occlusion was correct. It does so by comparing the distance to
     # the occluded point with the distance to the hit point with the vehicle surface
     def __check_occlusion(self, rays, intersection_points, occluded_points):
@@ -181,3 +219,14 @@ class Sensor:
         np.put(data, grid.car_points_indices, 2)
         np.put(data, grid.outside_indices, self.calculation_result)
         return data
+    
+    def print(self):
+        """
+        Prints the sensor's position, name, and number of covered points.
+        """
+        print("Sensor Name: ", self.name)
+        print("Sensor Position: ", self.position)
+        rotation = R.from_matrix(self.coordinate_system)
+        euler_angles = rotation.as_euler("yzx", degrees=True)
+        print("Sensor Rotation: ", euler_angles)
+        print("Number of Covered Points: ", self.number_covered_points)
