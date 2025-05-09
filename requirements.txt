@@ -31,6 +31,7 @@ scipy==1.15.2
 scooby==0.10.0
 six==1.17.0
 trimesh==3.23.5
+tqdm==4.67.1
 typing_extensions==4.12.2
 tzdata==2025.1
 urllib3==2.3.0
