@@ -12,6 +12,7 @@ from plotting.plot_helpers import metrics, setup_plot_args, output_folder
 from sensors.sensor_helpers import load_sensorset
 from sensors.sensor_set import SensorSet
 from utils.gui import GUI
+from tqdm import tqdm
 
 # PROGRAM OPTIONS
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
@@ -55,6 +56,33 @@ def plot(args, grid, vehicle, sensor_set):
     )
     logging.info("Report created -> finished")
 
+def get_points_inside_mesh(mesh, resolution=100):
+    """
+    Get all points inside a PyVista mesh.
+
+    :param mesh: The PyVista mesh (PolyData) to check.
+    :param resolution: Number of points along each axis in the bounding box.
+    :return: A numpy array of points inside the mesh.
+    """
+    # Get the bounding box of the mesh
+    bounds = mesh.bounds  # [xmin, xmax, ymin, ymax, zmin, zmax]
+
+    # Create a grid of points within the bounding box
+    x = np.linspace(bounds[0], bounds[1], resolution)
+    y = np.linspace(bounds[2], bounds[3], resolution)
+    z = np.linspace(bounds[4], bounds[5], resolution)
+    xx, yy, zz = np.meshgrid(x, y, z)
+    grid_points = np.c_[xx.ravel(), yy.ravel(), zz.ravel()]  # Flatten into (N, 3)
+
+    # Create a PointSet from the grid points
+    point_set = pv.PointSet(grid_points)
+
+    # Check which points are inside the mesh
+    selected = point_set.select_enclosed_points(mesh, progress_bar=True)
+    inside_points = selected.points[selected.point_data["SelectedPoints"] == 1]
+
+    # Return the inside points as a numpy array
+    return inside_points
 
 def run(args):
     logging.info("Starting Programm")
@@ -67,7 +95,7 @@ def run(args):
     sensor_set = SensorSet(load_sensorset(args.sensor_setup))
     logging.info("Sensor set loaded -> now setting sensor pose")
 
-    vehicle = pv.read(args.vehicle_path).triangulate_contours().clean()
+    vehicle = pv.read(args.vehicle_path).triangulate().clean()
     logging.info("Vehicle loaded -> creating grid")
 
     grid = Grid(
@@ -80,7 +108,7 @@ def run(args):
         center=args.origin,
         dist=args.nearfield_dist,
     )
-    logging.info("Grid created -> starting single sensor coverage calculation")
+    logging.info(" Grid created -> Calculating feasible area")
 
     # Create de feasible area
 
@@ -97,14 +125,12 @@ def run(args):
 
     # calculate the coverage of each sensor in the grid
     sensor_set.calculate_coverage(grid, vehicle)
-    logging.info("Finished single sensor calculation -> calculating grid coverage")
+    logging.info(" Finished single sensor calculation -> calculating grid coverage")
 
     # Combine the data of all sensors in the grid
     grid.combine_data(sensor_set.get_sensors())
-    logging.info("Grid coverage calculated -> Value: " + str(grid.get_coverage()))
-
-    # Initialize the population
-
+    logging.info(" Grid coverage calculated -> Value: " + str(grid.get_coverage()))
+    
     # Do the rest of the visualization stuff...
     # plot(args, grid, vehicle, sensor_set)
     
