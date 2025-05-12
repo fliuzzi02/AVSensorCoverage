@@ -17,16 +17,18 @@ from sensors.sensor_set import SensorSet
 from utils.gui import GUI
 from tqdm import tqdm
 
-## LOGGING OPTIONS
-logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+class TqdmLoggingHandler(logging.Handler):
+    def emit(self, record):
+        msg = self.format(record)
+        tqdm.write(msg)
 
 ## GLOBAL VARIABLES
 xMin = 0
 xMax = 1.5
-yMin = -0.75
-yMax = 0.75
+yMin = -0.65
+yMax = 0.65
 zMin = 1.5
-zMax = 2
+zMax = 1.8
 pitchMin = -10
 pitchMax = 10
 rollMin = -10
@@ -40,7 +42,10 @@ max_iterations = 400
 variables_per_sensor = 4
 
 prototype_sensor_set, grid, vehicle, feasible_positions, sensors_per_set = None, None, None, None, None
-progress = tqdm(total=population_size*max_iterations, desc="CMA-ES")
+
+## LOGGING OPTIONS
+logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO, handlers=[TqdmLoggingHandler()])
+progress = tqdm(total=population_size*max_iterations, desc="CMA-ES", dynamic_ncols=True, leave=True)
 
 def plot(args, grid, vehicle, sensor_set):
     logging.info("Starting plotting")
@@ -82,6 +87,20 @@ def plot(args, grid, vehicle, sensor_set):
         slices[2],
     )
     logging.info("Report created -> finished")
+
+def plot_feasible_area(feasible_area, vehicle):
+    """
+    Plot the feasible area and the vehicle mesh.
+
+    :param feasible_area: The feasible area mesh (PyVista PolyData).
+    :param vehicle: The vehicle mesh (PyVista PolyData).
+    """
+    plotter = pv.Plotter()
+    plotter.add_mesh(feasible_area, color="blue", opacity=0.5, show_edges=True)
+    plotter.add_mesh(vehicle, color="red", opacity=0.5, show_edges=True)
+    plotter.add_axes()
+    plotter.show_grid()
+    plotter.show()
 
 def get_points_inside_mesh(mesh, resolution):
     """
@@ -167,8 +186,6 @@ def my_objective_function(x):
     representing the fitness of the solution.
 
     :param x: The input parameters for the objective function. They are interpreted as the sensor poses. [x1, y1, z1, pitch1, yaw1, roll1, ...].
-    :param sensor_set: The sensor set to be evaluated.
-    :param grid: The grid to be used for coverage calculation.
     :return: The fitness value.
     """
     # Copy the input x to avoid modifying the original
@@ -224,20 +241,13 @@ def run(args):
     # Create the feasible positions
     feasible_area = pv.Box(bounds=[xMin, xMax, yMin, yMax, zMin, zMax]).triangulate().clean()
     # Plot the feasible area and the vehicle
-    """
-    plotter = pv.Plotter()
-    plotter.add_mesh(feasible_area, color="blue", opacity=0.5, show_edges=True)
-    plotter.add_mesh(vehicle, color="red", opacity=0.5, show_edges=True)
-    plotter.add_axes()
-    plotter.show_grid()
-    plotter.show()
-    """
+    # plot_feasible_area(feasible_area, vehicle)
     # feasible_positions = calculate_feasible_positions(feasible_area)
     logging.info("Feasible area calculated -> Initating optimization algorithm")
 
     ### This is where the optimization algorithm begins
     x0 = [0.5] * variables_per_sensor * sensors_per_set
-    sigma0 = 1
+    sigma0 = 0.9
 
     # Define CMA options
     options = {

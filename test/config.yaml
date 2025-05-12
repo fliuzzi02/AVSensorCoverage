@@ -1,7 +1,7 @@
 # Grid Settings
 dim_x: 20
 dim_y: 10
-dim_z: 3
+dim_z: 1.6
 spacing: 0.5
 origin: [0, 0, 0]
 nearfield_dist: 2
