@@ -1,0 +1,67 @@
+cameras:
+- fov: 70
+  max_dist: 100
+  min_dist: 0.1
+  n_pixels:
+    height: 1860
+    width: 2880
+  name: Camera One
+  orientation:
+    pitch: 180.0
+    roll: 180.0
+    yaw: 0.7679918247783466
+  position:
+    x: 1.2427582587006198
+    y: -0.5798292258192532
+    z: 1.9602365996627702
+  type: Camera
+- fov: 70
+  max_dist: 100
+  min_dist: 0.1
+  n_pixels:
+    height: 1860
+    width: 2880
+  name: Camera Two
+  orientation:
+    pitch: 0.0
+    roll: 0.0
+    yaw: 15.532905302961789
+  position:
+    x: 0.0017555421323894162
+    y: -0.5462842558884216
+    z: 1.9853209371926768
+  type: Camera
+- fov: 70
+  max_dist: 100
+  min_dist: 0.1
+  n_pixels:
+    height: 1860
+    width: 2880
+  name: Camera Three
+  orientation:
+    pitch: 180.0
+    roll: 180.0
+    yaw: 54.86578765333148
+  position:
+    x: 1.4475941176871865
+    y: -0.41623981914640096
+    z: 1.8048558111046047
+  type: Camera
+- fov: 70
+  max_dist: 100
+  min_dist: 0.1
+  n_pixels:
+    height: 1860
+    width: 2880
+  name: Camera Four
+  orientation:
+    pitch: 0.0
+    roll: 0.0
+    yaw: -47.3830525283951
+  position:
+    x: 0.6779657515746402
+    y: -0.16153109596993087
+    z: 1.9026842964977175
+  type: Camera
+lidars: []
+radars: []

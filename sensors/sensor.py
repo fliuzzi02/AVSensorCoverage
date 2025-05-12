@@ -159,8 +159,11 @@ class Sensor:
         cell_volume = grid.mesh.spacing[0] ** 3
         self.occluded_volume = round(self.occluded_indices.size * cell_volume, 2)
         self.covered_volume = round(self.covered_indices.size * cell_volume, 2)
+        divisor = self.covered_volume + self.occluded_volume
+        if divisor == 0:
+            divisor = 0.0000001
         self.fraction_occluded = round(
-            100 * self.occluded_volume / (self.covered_volume + self.occluded_volume), 1
+            100 * self.occluded_volume / divisor, 1
         )
 
         if all_metrics:
