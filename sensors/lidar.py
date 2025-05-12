@@ -81,3 +81,13 @@ class Lidar(Sensor):
         self.number_covered_points = self.covered_indices.size
 
         self.set_metrics(grid, indexes, all_metrics)
+    
+    def copy(self):
+        return Lidar(
+            self.position,
+            self.fov_h,
+            self.fov_v,
+            self.max_dist,
+            self.min_range,
+            self.name,
+        )

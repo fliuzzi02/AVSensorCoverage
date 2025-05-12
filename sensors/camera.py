@@ -67,3 +67,15 @@ class Camera(Sensor):
         self.number_covered_points = self.covered_indices.size
 
         self.set_metrics(grid, indexes, all_metrics)
+
+    def copy(self):
+        return Camera(
+            self.position,
+            self.fov,
+            self.max_dist,
+            self.aspect_ratio,
+            1,
+            self.name,
+            self.min_dist,
+        )
+    
