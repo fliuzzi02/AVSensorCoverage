@@ -8,7 +8,7 @@ from environment import grid_helpers as helpers
 # this class is a child class of sensor and models the lidar
 class Lidar(Sensor):
     def __init__(self, position, fov_h, fov_v, detection_range, min_range, name):
-        super().__init__(position, name)
+        super().__init__(position, name, "lidar")
         self.fov_h = fov_h
         self.fov_v = fov_v
         self.max_dist = detection_range
@@ -91,3 +91,27 @@ class Lidar(Sensor):
             self.min_range,
             self.name,
         )
+    
+    def to_yaml(self):
+        """
+        Convert the Lidar object to a dictionary representation for YAML serialization.
+        :return: Dictionary representation of the Lidar object.
+        """
+        return {
+            'type': 'LiDAR',
+            'position': {
+                'x': int(self.get_pose(True)[0]),
+                'y': int(self.get_pose(True)[1]),
+                'z': int(self.get_pose(True)[2])
+            },
+            'orientation': {
+                'pitch': int(self.get_pose(True)[3]),
+                'yaw': int(self.get_pose(True)[4]),
+                'roll': int(self.get_pose(True)[5])
+            },
+            'fov_h': self.fov_h,
+            'fov_v': self.fov_v,
+            'detection_range': self.max_dist,
+            'min_range': self.min_range,
+            'name': self.name
+        }

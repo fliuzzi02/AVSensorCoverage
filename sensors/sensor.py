@@ -5,9 +5,10 @@ from scipy.spatial.transform import Rotation as R
 # this class contains generic sensor properties and functions that are used by every sensortype. it acts as a parent
 # class for camera lidar and radar
 class Sensor:
-    def __init__(self, position, name):
+    def __init__(self, position, name, type=None):
         self.position = np.array(position)
         self.name = name
+        self.type = type
         self.points = None
         self.mesh = None
         self.calculation_result = None

@@ -10,7 +10,9 @@ class Camera(Sensor):
     def __init__(
         self, position, fov, max_dist, image_width, image_height, name, min_dist=0
     ):
-        super().__init__(position, name)
+        super().__init__(position, name, "camera")
+        self.image_width = image_width
+        self.image_height = image_height
         self.aspect_ratio = image_width / image_height
         self.max_dist = max_dist
         self.min_dist = min_dist
@@ -73,9 +75,36 @@ class Camera(Sensor):
             self.position,
             self.fov,
             self.max_dist,
-            self.aspect_ratio,
-            1,
+            self.image_width,
+            self.image_height,
             self.name,
             self.min_dist,
         )
+    
+    def to_yaml(self):
+        """
+        Convert the Camera object to a dictionary representation for YAML serialization.
+        :return: Dictionary representation of the Camera object.
+        """
+        return {
+            'name': self.name,
+            'type': 'Camera',
+            'position': {
+                'x': float(self.get_pose(True)[0]),
+                'y': float(self.get_pose(True)[1]),
+                'z': float(self.get_pose(True)[2])
+            },
+            'orientation': {
+                'pitch': float(self.get_pose(True)[3]),
+                'yaw': float(self.get_pose(True)[4]),
+                'roll': float(self.get_pose(True)[5])
+            },
+            'fov': self.fov,
+            'max_dist': self.max_dist,
+            'min_dist': self.min_dist,
+            'n_pixels': {
+                'width': self.image_width,
+                'height': self.image_height
+            }
+        }
     

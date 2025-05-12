@@ -1,5 +1,6 @@
 import logging
 import time
+import yaml
 
 # This class represents a set of sensors
 class SensorSet:
@@ -25,3 +26,22 @@ class SensorSet:
 
     def copy(self):
         return SensorSet([sensor.copy() for sensor in self.sensors])
+    
+    def to_yaml(self):
+        """
+        Convert the sensor set to a yaml representation.
+        :return: yaml representation of the sensor set
+        """
+        return {
+            "lidars": [sensor.to_yaml() for sensor in self.sensors if sensor.type == "lidar"],
+            "radars": [sensor.to_yaml() for sensor in self.sensors if sensor.type == "radar"],
+            "cameras": [sensor.to_yaml() for sensor in self.sensors if sensor.type == "camera"],
+        }
+    
+    def save(self, path):
+        """
+        Save the sensor set characteristics to a yaml file in indented format.
+        :param path: path to the yaml file
+        """
+        with open(path, 'w') as file:
+            yaml.dump(self.to_yaml(), file, default_flow_style=False)
