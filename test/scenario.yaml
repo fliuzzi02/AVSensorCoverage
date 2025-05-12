@@ -80,9 +80,9 @@ cameras:
   update_hz: 30
   uuid: 58303124-4456-FC82-B494-83B43E811A7E
 lidars:
-- detection_range: 20
+- detection_range: 200
   fov_h: 360
-  fov_v: 20
+  fov_v: 42.2
   min_range: 0.1
   name: LiDAR360
   orientation:
@@ -92,7 +92,7 @@ lidars:
   position:
     x: 1.350000023841858
     y: 0
-    z: 1.649999976158142
+    z: 1.7
   pps: 700000
   rps: 10
   type: Roof LiDAR

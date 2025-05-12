@@ -4,14 +4,14 @@ lidars:
     position:
       x: 0.25
       y: 0
-      z: 1.4
+      z: 1.7
     orientation:
       pitch: 0
       yaw: 0
       roll: 0
     fov_h: 360
     fov_v: 42.2
-    detection_range: 100
+    detection_range: 200
     min_range: 0.1
 
 radars:
