@@ -4,6 +4,7 @@ charset-normalizer==3.4.1
 contourpy==1.3.1
 customtkinter==5.2.2
 cycler==0.12.1
+cma==4.0.0
 Cython==0.29.37
 darkdetect==0.8.0
 easydict==1.13

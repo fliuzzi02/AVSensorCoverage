@@ -1,7 +1,8 @@
 import logging
-import pickle
 import time
 import pyvista as pv
+import numpy as np
+import cma
 
 from args import args
 from environment.grid import Grid
@@ -15,7 +16,7 @@ from utils.gui import GUI
 from tqdm import tqdm
 
 # PROGRAM OPTIONS
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
 def plot(args, grid, vehicle, sensor_set):
     logging.info("Starting plotting")
@@ -28,7 +29,6 @@ def plot(args, grid, vehicle, sensor_set):
         n7=args.conditions.N7,
         n8=args.conditions.N8,
     )
-    logging.info("Grid coverage calculated -> preparing report and plots")
 
     # Here i can edit the height of the slices that will be analyzed and plotted
     slices = [
@@ -84,6 +84,31 @@ def get_points_inside_mesh(mesh, resolution=100):
     # Return the inside points as a numpy array
     return inside_points
 
+def my_objective_function(x, sensor_set, grid, vehicle):
+    """
+    Objective function to be minimized. This function should return a single value
+    representing the fitness of the solution.
+
+    :param x: The input parameters for the objective function. They are interpreted as the sensor poses. [x1, y1, z1, roll1, pitch1, yaw1, ...].
+    :param sensor_set: The sensor set to be evaluated.
+    :param grid: The grid to be used for coverage calculation.
+    :return: The fitness value.
+    """
+    # Unpack the input parameters
+    # Position sensors in 3D space
+    i = 0
+    for sensor in sensor_set.get_sensors():
+        sensor.set_pose(x[i], x[i+1], x[i+2], x[i+3], x[i+4], x[i+5])
+        i += 1
+
+    # Calculate the fitness value based on the sensor positions
+    # This is just a placeholder; replace with actual fitness calculation
+    sensor_set.calculate_coverage(grid, vehicle)
+    grid.combine_data(sensor_set.get_sensors())
+    fitness_value = grid.get_coverage()
+
+    return fitness_value
+
 def run(args):
     logging.info("Starting Programm")
 
@@ -92,7 +117,7 @@ def run(args):
         gui_instance.run()
         args.update(gui_instance.get_inputs())
     
-    sensor_set = SensorSet(load_sensorset(args.sensor_setup))
+    prototype_sensor_set = SensorSet(load_sensorset(args.sensor_setup))
     logging.info("Sensor set loaded -> now setting sensor pose")
 
     vehicle = pv.read(args.vehicle_path).triangulate().clean()
@@ -108,31 +133,45 @@ def run(args):
         center=args.origin,
         dist=args.nearfield_dist,
     )
-    logging.info(" Grid created -> Calculating feasible area")
+    logging.info("Grid created -> Calculating feasible area")
 
-    # Create de feasible area
+    # Create the feasible area
+    feasible_area = pv.Box(bounds=[0, 1.5, -0.75, 0.75, 1.25, 1.75]).triangulate().clean()
+    feasible_area = feasible_area.boolean_difference(vehicle).triangulate().clean()
+    feasible_positions = get_points_inside_mesh(feasible_area, resolution=100)
+    logging.info(f"Number of points inside the feasible area: {len(feasible_positions)}")
+    logging.info("Feasible area calculated -> initating optimization algorithm")
 
-    feasible_area = pv.Box(bounds=[-0.5, 0.5, -0.5, 0.5, 1, 1.5]).triangulate().clean()
-
-
-    # Plot the feasible area and the car so that i can deactivate the visualization of the car and see the feasible area
-    # This is useful to see if the feasible area is correct
-    plotter = pv.Plotter()
-    plotter.add_mesh(vehicle, color="red", show_edges=True, edge_color="black")
-    plotter.add_mesh(feasible_area, color="green", show_edges=True, edge_color="black")
-    plotter.show()
-
-
-    # calculate the coverage of each sensor in the grid
-    sensor_set.calculate_coverage(grid, vehicle)
-    logging.info(" Finished single sensor calculation -> calculating grid coverage")
-
-    # Combine the data of all sensors in the grid
-    grid.combine_data(sensor_set.get_sensors())
-    logging.info(" Grid coverage calculated -> Value: " + str(grid.get_coverage()))
+    ### This is where the optimization algorithm begins
+    population_size = 1
+    population = []
+    fitness_values = []
     
+    # Create a random population of sensor sets
+    for _ in range(population_size):
+        # Create a new sensor set with the same sensors but different positions
+        new_sensor_set = prototype_sensor_set.copy()
+        for sensor in new_sensor_set.get_sensors():
+            # Randomly select a point inside the feasible area
+            random_point = feasible_positions[np.random.choice(feasible_positions.shape[0])]
+            sensor.set_pose(random_point[0], random_point[1], random_point[2])
+        population.append(new_sensor_set)
+
+    # Calculate the coverage of all sensor sets in the population
+    start_time = time.time()
+    for i, sensor_set in enumerate(population):
+        sensor_set.calculate_coverage(grid, vehicle)
+        grid.combine_data(sensor_set.get_sensors())
+        fitness_values.append(grid.get_coverage())
+        logging.info(f"Sensor set {i + 1}/{population_size} coverage: {fitness_values[i]}")
+    logging.info(f"Coverage calculation took {time.time() - start_time} seconds")
+    logging.info("Fitness values: " + str(fitness_values))
+
+    # Test saving the population
+    population[0].save("test/pickle.yaml")
+
     # Do the rest of the visualization stuff...
-    # plot(args, grid, vehicle, sensor_set)
+    # plot(args, grid, vehicle, population[0])
     
 
 
