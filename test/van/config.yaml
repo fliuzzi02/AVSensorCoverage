@@ -2,7 +2,7 @@
 dim_x: 50
 dim_y: 30
 dim_z: 4
-spacing: 0.5
+spacing: 0.25
 origin: [0, 0, 0]
 nearfield_dist: 2
 advanced: True

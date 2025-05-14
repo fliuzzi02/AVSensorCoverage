@@ -14,7 +14,7 @@ from sensors.sensor_set import SensorSet
 from utils.gui import GUI
 
 # PROGRAM OPTIONS
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
+logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
 
 def run(args):
@@ -39,11 +39,11 @@ def run(args):
     # Positive Z is up
     vehicle = pv.read(args.vehicle_path).triangulate()
     # Plot the vehicle for testing purposes with grid in meters
-    plotter = pv.Plotter()
-    plotter.add_mesh(vehicle, color="white", show_edges=True)
-    plotter.add_axes()
-    plotter.show_grid()
-    plotter.show()
+    # plotter = pv.Plotter()
+    # plotter.add_mesh(vehicle, color="white", show_edges=True)
+    # plotter.add_axes()
+    # plotter.show_grid()
+    # plotter.show()
     logging.info("Vehicle loaded -> creating grid")
 
     grid = Grid(

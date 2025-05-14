@@ -9,13 +9,13 @@ cameras:
     width: 1280
   name: Camera_F
   orientation:
-    pitch: 0.0
+    pitch: 20.0
     roll: 0.0
     yaw: 0.0
   position:
-    x: 1.350000023841858
+    x: 2
     y: 0
-    z: 3.5499999523162842
+    z: 2.2
   type: Front
   update_hz: 30
   uuid: F9242BF8-41AB-6ED2-7F52-FBB6A71CB418
@@ -33,9 +33,9 @@ cameras:
     roll: 0.0
     yaw: 70
   position:
-    x: 1.350000023841858
-    y: 0.3
-    z: 3.5499999523162842
+    x: 2
+    y: 0.6
+    z: 2.2
   type: Left
   update_hz: 30
   uuid: 7BB37980-44BC-FD3F-6B6D-6A9B2A17C134
@@ -53,9 +53,9 @@ cameras:
     roll: 0.0
     yaw: -70
   position:
-    x: 1.350000023841858
-    y: -0.3
-    z: 3.5499999523162842
+    x: 2
+    y: -0.6
+    z: 2.2
   type: Right
   update_hz: 30
   uuid: 81E7B24B-4316-AEFA-A7DA-EBA0D204C0DD
@@ -69,13 +69,13 @@ cameras:
     width: 1280
   name: Camera_RR
   orientation:
-    pitch: 0.0
+    pitch: 20.0
     roll: 0.0
     yaw: 180.0
   position:
-    x: 1.050000023841858
+    x: -0.7
     y: 0
-    z: 3.5499999523162842
+    z: 2.2
   type: Rear
   update_hz: 30
   uuid: 58303124-4456-FC82-B494-83B43E811A7E
