@@ -510,8 +510,11 @@ class Grid:
                 )
             else:
                 # for the areas divide number of covered points by the number of points inside the area
+                divisor = area_indices.size
+                if divisor == 0:
+                    divisor = 0.000001
                 self.metrics[row[0], row[1]] = round(
-                    (covered.size / area_indices.size) * 100, 1
+                    (covered.size / divisor) * 100, 1
                 )
 
     # callable function, that sets the metrics with a condition. conditions can be passed, otherwise defaults are used
@@ -543,8 +546,11 @@ class Grid:
                 )
             else:
                 # for the areas divide number of covered points by the number of points inside the area
+                divisor = area_indices.size
+                if divisor == 0:
+                    divisor = 0.000001
                 self.metrics[row[0], row[1]] = round(
-                    (covered.size / area_indices.size) * 100, 1
+                    (covered.size / divisor) * 100, 1
                 )
 
     # helper function used to translate from integers to the corresponding area indices

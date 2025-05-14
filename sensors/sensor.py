@@ -214,7 +214,10 @@ class Sensor:
             # divide the covered points in an area by the number of points in an area
             data = data[area_indices]
             indices = np.nonzero(data == 1)[0]
-            self.metrics[index] = round((indices.size / area_indices.size) * 100, 1)
+            dvisor = area_indices.size
+            if dvisor == 0:
+                dvisor = 0.0000001
+            self.metrics[index] = round((indices.size / divisor) * 100, 1)
 
     # helper function that is used to bring the number of rows in the sensor calculation_result to the number of total
     # points of the grid. this way, the area indices can be used correctly on the calculation result
