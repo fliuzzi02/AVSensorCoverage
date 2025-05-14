@@ -14,7 +14,7 @@ from sensors.sensor_set import SensorSet
 from utils.gui import GUI
 
 # PROGRAM OPTIONS
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
 
 def run(args):
@@ -38,7 +38,12 @@ def run(args):
     # Positive Y is to the left of the vehicle
     # Positive Z is up
     vehicle = pv.read(args.vehicle_path).triangulate()
-    # vehicle.plot()
+    # Plot the vehicle for testing purposes with grid in meters
+    plotter = pv.Plotter()
+    plotter.add_mesh(vehicle, color="white", show_edges=True)
+    plotter.add_axes()
+    plotter.show_grid()
+    plotter.show()
     logging.info("Vehicle loaded -> creating grid")
 
     grid = Grid(
@@ -60,12 +65,6 @@ def run(args):
     # Combine the data of all sensors in the grid
     grid.combine_data(sensor_set.get_sensors())
     logging.info("Grid coverage calculated -> Value: " + str(grid.get_coverage()))
-
-    # HERE I CAN LOOP ON THE GENETIC ALGORITHM
-    # random_sensor_sets = sensor_set.generate_random_population(feasible_area)
-    # new_generation = sensor_set.improve_population(random_sensor_sets)
-    # best_candidate = sensor_set.get_best_candidate(new_generation)
-    # repeat until the best candidate is good enough
 
     # Calculate the metrics for the grid
     grid.set_metrics_no_condition()
