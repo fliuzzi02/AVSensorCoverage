@@ -224,6 +224,12 @@ class Sensor:
         np.put(data, grid.outside_indices, self.calculation_result)
         return data
     
+    def get_name(self):
+        """
+        Returns the name of the sensor.
+        """
+        return self.name
+    
     def print(self):
         """
         Prints the sensor's position, name, and number of covered points.

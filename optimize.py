@@ -17,6 +17,8 @@ from sensors.sensor_set import SensorSet
 from utils.gui import GUI
 from tqdm import tqdm
 
+# TODO: Add sensors list not to optimize, so the fixed positions
+
 class TqdmLoggingHandler(logging.Handler):
     def emit(self, record):
         msg = self.format(record)
@@ -195,6 +197,9 @@ def my_objective_function(x):
     i = 0
     sensor_set = prototype_sensor_set.copy()
     for sensor in sensor_set.get_sensors():
+        if sensor.get_name() == "Camera_F":
+            # Skip the front sensor
+            continue
         sensor.set_pose(x_test[i], x_test[i+1], x_test[i+2], 0, x_test[i+3], 0)
         i += variables_per_sensor
 
@@ -220,7 +225,8 @@ def run(args):
         args.update(gui_instance.get_inputs())
     
     prototype_sensor_set = SensorSet(load_sensorset(args.sensor_setup))
-    sensors_per_set = len(prototype_sensor_set.get_sensors())
+    # TODO: Here i am optimizing all the sensors except the one in the front
+    sensors_per_set = len(prototype_sensor_set.get_sensors()) - 1
     logging.info("Sensor set loaded -> now setting sensor pose")
 
     vehicle = pv.read(args.vehicle_path).triangulate().clean()
@@ -241,7 +247,7 @@ def run(args):
     # Create the feasible positions
     feasible_area = pv.Box(bounds=[xMin, xMax, yMin, yMax, zMin, zMax]).triangulate().clean()
     # Plot the feasible area and the vehicle
-    # plot_feasible_area(feasible_area, vehicle)
+    plot_feasible_area(feasible_area, vehicle)
     # feasible_positions = calculate_feasible_positions(feasible_area)
     logging.info("Feasible area calculated -> Initating optimization algorithm")
 
@@ -274,6 +280,9 @@ def run(args):
     best_solution = scale_solution(best_solution)
     i = 0
     for sensor in sensor_set.get_sensors():
+        if sensor.get_name() == "Camera_F":
+            # Skip the front sensor
+            continue
         sensor.set_pose(best_solution[i], best_solution[i+1], best_solution[i+2], 0, best_solution[i+3], 0)
         i += variables_per_sensor
     
