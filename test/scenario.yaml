@@ -34,7 +34,7 @@ cameras:
     yaw: 44.99999827040028
   position:
     x: 1.350000023841858
-    y: 0
+    y: 0.15
     z: 1.5499999523162842
   type: Left
   update_hz: 30
@@ -54,7 +54,7 @@ cameras:
     yaw: -44.99999827040028
   position:
     x: 1.350000023841858
-    y: 0
+    y: -0.15
     z: 1.5499999523162842
   type: Right
   update_hz: 30
@@ -73,7 +73,7 @@ cameras:
     roll: 0.0
     yaw: 180.0
   position:
-    x: 1.350000023841858
+    x: 1.250000023841858
     y: 0
     z: 1.5499999523162842
   type: Rear
@@ -99,10 +99,10 @@ lidars:
   update_hz: 30
   uuid: 41F12E76-4467-496B-1575-2E953418B78D
 radars:
-- detection_range: 60
+- detection_range: 100
   fov_h: 120
-  fov_v: 8
-  min_range: 0.1
+  fov_v: 40
+  min_range: 0.2
   name: Radar_F
   orientation:
     pitch: 0.0
@@ -116,10 +116,10 @@ radars:
   type: Front Radar
   update_hz: 30
   uuid: F0CAACE1-4899-232F-36AA-6D92264A1B10
-- detection_range: 60
+- detection_range: 100
   fov_h: 120
-  fov_v: 8
-  min_range: 0.1
+  fov_v: 40
+  min_range: 0.2
   name: Radar_L
   orientation:
     pitch: 0.0
@@ -133,10 +133,10 @@ radars:
   type: Left Radar
   update_hz: 30
   uuid: 81A5C57B-4293-761A-D064-209151D4B825
-- detection_range: 60
+- detection_range: 100
   fov_h: 120
-  fov_v: 8
-  min_range: 0.1
+  fov_v: 40
+  min_range: 0.2
   name: Radar_R
   orientation:
     pitch: 0.0
@@ -150,10 +150,10 @@ radars:
   type: Rear Radar
   update_hz: 30
   uuid: 70E3E48C-4C2E-BC5F-61FD-A4BAD53A9BDE
-- detection_range: 60
+- detection_range: 100
   fov_h: 120
-  fov_v: 8
-  min_range: 0.1
+  fov_v: 40
+  min_range: 0.2
   name: Radar_RR
   orientation:
     pitch: 0.0

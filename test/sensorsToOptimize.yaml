@@ -1,6 +1,6 @@
 cameras:
 - encoding: rgb8
-  fov: 90
+  fov: 70
   lens_dirt: 0
   max_dist: 100
   min_dist: 0.1
@@ -20,7 +20,7 @@ cameras:
   update_hz: 30
   uuid: F9242BF8-41AB-6ED2-7F52-FBB6A71CB418
 - encoding: rgb8
-  fov: 90
+  fov: 70
   lens_dirt: 0
   max_dist: 100
   min_dist: 0.1
@@ -31,7 +31,7 @@ cameras:
   orientation:
     pitch: 0.0
     roll: 0.0
-    yaw: 44.99999827040028
+    yaw: 70
   position:
     x: 1.350000023841858
     y: 0.3
@@ -40,7 +40,7 @@ cameras:
   update_hz: 30
   uuid: 7BB37980-44BC-FD3F-6B6D-6A9B2A17C134
 - encoding: rgb8
-  fov: 90
+  fov: 70
   lens_dirt: 0
   max_dist: 100
   min_dist: 0.1
@@ -51,7 +51,7 @@ cameras:
   orientation:
     pitch: 0.0
     roll: 0.0
-    yaw: -44.99999827040028
+    yaw: -70
   position:
     x: 1.350000023841858
     y: -0.3
@@ -60,7 +60,7 @@ cameras:
   update_hz: 30
   uuid: 81E7B24B-4316-AEFA-A7DA-EBA0D204C0DD
 - encoding: rgb8
-  fov: 90
+  fov: 70
   lens_dirt: 0
   max_dist: 100
   min_dist: 0.1
