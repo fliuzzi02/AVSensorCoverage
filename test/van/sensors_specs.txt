@@ -1,0 +1,22 @@
+Radar:
+    4x Continental ARS430DI
+        Minimum range: 0.2m
+        Maximum range: 200m
+        H_FoV: 100°
+        V_FoV: 40°
+
+Camera:
+    4x Lucid Triton HDR
+        Minimum range: ?
+        Maximum range: ?
+        H_FoV: ?
+        V_FoV: ?
+        Resolution: 2880x1860
+
+LiDAR:
+    4x Robosense M1P
+        Minimum range: 0.7m
+        Maximum range: 200m
+        H_FoV: 120°
+        V_FoV: 25°
+        Resolution: 2880x1860
