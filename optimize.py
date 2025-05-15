@@ -17,8 +17,6 @@ from sensors.sensor_set import SensorSet
 from utils.gui import GUI
 from tqdm import tqdm
 
-# TODO: Add sensors list not to optimize, so the fixed positions
-
 class TqdmLoggingHandler(logging.Handler):
     def emit(self, record):
         msg = self.format(record)
@@ -27,21 +25,27 @@ class TqdmLoggingHandler(logging.Handler):
 ## GLOBAL VARIABLES
 xMin = 0
 xMax = 1.5
-yMin = -0.65
-yMax = 0.65
-zMin = 1.5
-zMax = 1.8
+yMin = -0.6
+yMax = 0.6
+zMin = 1.55
+zMax = 1.7
 pitchMin = -10
 pitchMax = 10
-rollMin = -10
-rollMax = 10
-yawMin = -180
-yawMax = 180
+yawMin = 0
+yawMax = 360
+rollMin = 0
+rollMax = 0
 
 population_size = 20
 max_iterations = 400
 
-variables_per_sensor = 4
+# Number of variables per sensor They can be from 1 to 6, the order is:
+# x, y, z, yaw, pitch, roll
+# 0, 1, 2, 3,   4,     5
+variables_per_sensor = 5
+
+# List of sensors that will not be optimized
+invariant_sensors = ["Camera_F"]
 
 prototype_sensor_set, grid, vehicle, feasible_positions, sensors_per_set = None, None, None, None, None
 
@@ -174,13 +178,44 @@ def scale_solution(x):
     for i in range(0, len(x), variables_per_sensor):
         # Rescale the x, y, z coordinates to the feasible area
         x_scaled[i] = x[i] * (xMax - xMin) + xMin
-        x_scaled[i+1] = x[i+1] * (yMax - yMin) + yMin
-        x_scaled[i+2] = x[i+2] * (zMax - zMin) + zMin
-        # Rescale the pitch, yaw, roll angles to the feasible range
-        # x_scaled[i+3] = x[i+3] * (pitchMax - pitchMin) + pitchMin
-        x_scaled[i+3] = x[i+3] * (yawMax - yawMin) + yawMin
-        # x_scaled[i+5] = x[i+5] * (rollMax - rollMin) + rollMin
+        if variables_per_sensor > 1: x_scaled[i+1] = x[i+1] * (yMax - yMin) + yMin
+        if variables_per_sensor > 2: x_scaled[i+2] = x[i+2] * (zMax - zMin) + zMin
+        if variables_per_sensor > 3: x_scaled[i+3] = x[i+3] * (yawMax - yawMin) + yawMin
+        if variables_per_sensor > 4: x_scaled[i+4] = x[i+4] * (pitchMax - pitchMin) + pitchMin
+        if variables_per_sensor > 5: x_scaled[i+5] = x[i+5] * (rollMax - rollMin) + rollMin
     return x_scaled
+
+def generate_sensor_set(x):
+    """
+    Generate a sensor set based on the input parameters. Copies the prototype sensor set and sets the poses of the sensors.
+    :param x: The input parameters for the objective function. They are interpreted as the sensor poses. [x1, y1, z1, yaw1, pitch1, roll1, ...].
+    :return: A new sensor set with the updated poses.
+    """
+    sensor_set = prototype_sensor_set.copy()
+    i = 0
+    for sensor in sensor_set.get_sensors():
+        # If the sensor is invariant, skip it
+        if sensor.get_name() in invariant_sensors:
+            continue
+
+        # Set the sensor's pose using the scaled values
+        match variables_per_sensor:
+            case 1:
+                sensor.set_pose(x[i], 0, 0, 0, 0, 0)
+            case 2:
+                sensor.set_pose(x[i], x[i+1], 0, 0, 0, 0)
+            case 3:
+                sensor.set_pose(x[i], x[i+1], x[i+2], 0, 0, 0)
+            case 4:
+                sensor.set_pose(x[i], x[i+1], x[i+2], 0, x[i+3], 0)
+            case 5:
+                sensor.set_pose(x[i], x[i+1], x[i+2], x[i+4], x[i+3], 0)
+            case 6:
+                sensor.set_pose(x[i], x[i+1], x[i+2], x[i+4], x[i+3], x[i+5])
+
+        i += variables_per_sensor
+
+    return sensor_set
 
 def my_objective_function(x):
     """
@@ -194,15 +229,8 @@ def my_objective_function(x):
     x_test = scale_solution(x)
 
     # Position sensors in 3D space
-    i = 0
-    sensor_set = prototype_sensor_set.copy()
-    for sensor in sensor_set.get_sensors():
-        if sensor.get_name() == "Camera_F":
-            # Skip the front sensor
-            continue
-        sensor.set_pose(x_test[i], x_test[i+1], x_test[i+2], 0, x_test[i+3], 0)
-        i += variables_per_sensor
-
+    sensor_set = generate_sensor_set(x_test)
+    
     # Calculate the fitness value based on the sensor positions
     # This is just a placeholder; replace with actual fitness calculation
     sensor_set.calculate_coverage(grid, vehicle)
@@ -251,7 +279,8 @@ def run(args):
     # feasible_positions = calculate_feasible_positions(feasible_area)
     logging.info("Feasible area calculated -> Initating optimization algorithm")
 
-    ### This is where the optimization algorithm begins
+    ## This is where the optimization algorithm begins
+    # Initial state formatted as [x1, y1, z1, yaw1, pitch1, roll1, ...]
     x0 = [0.5] * variables_per_sensor * sensors_per_set
     sigma0 = 0.9
 
@@ -276,21 +305,15 @@ def run(args):
     best_fitness = result[1]
 
     # Apply the best solution to the sensor set
-    sensor_set = prototype_sensor_set.copy()
     best_solution = scale_solution(best_solution)
-    i = 0
-    for sensor in sensor_set.get_sensors():
-        if sensor.get_name() == "Camera_F":
-            # Skip the front sensor
-            continue
-        sensor.set_pose(best_solution[i], best_solution[i+1], best_solution[i+2], 0, best_solution[i+3], 0)
-        i += variables_per_sensor
+    sensor_set = generate_sensor_set(best_solution)
     
     logging.info(f"Best solution: {str(best_solution)}")
     logging.info(f"Best fitness: {str(best_fitness)}")
 
     # Save the sensor set to a file
-    sensor_set.save("test/optimizedSensors.yaml")
+    if args.save_path is not None:
+        sensor_set.save(str(args.save_path) + "/optimizedSensors.yaml")
 
     # Plot cma results
     cma.plot()

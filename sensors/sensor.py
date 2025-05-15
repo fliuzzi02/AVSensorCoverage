@@ -97,7 +97,7 @@ class Sensor:
 
         :param as_euler: If True, returns orientation as Euler angles (degrees).
                      If False, returns the rotation matrix.
-        :return: Pose as (x, y, z) coordinates plus orientation as Euler angles (pitch, yaw, roll) or rotation matrix.
+        :return: Pose as (x, y, z) coordinates plus orientation as Euler angles (pitch, yaw, roll) or rotation matrix. Formatted as a numpy array.
         """
         if as_euler:
             rotation = R.from_matrix(self.coordinate_system)

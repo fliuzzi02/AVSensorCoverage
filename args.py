@@ -23,6 +23,7 @@ parser.add_argument("--vehicle",  type=lambda p: Path(p).absolute(), default=cur
 # Arguments for Directories
 parser.add_argument("--path", default=cur_file_path() / "simulation_results", type=lambda p: Path(p).absolute(), dest="save_path", help="Parent path for simulation results folder.")
 parser.add_argument("--name", default=get_default_folder_name(), dest="folder_name", help="Name of the folder. If not given, current datetime is used.")
+parser.add_argument("--save_path", default=None, type=lambda p: Path(p).absolute(), dest="save_path", help="Path to save the optimized results. If not given, the results will not be saved.")
 
 # Argument for YAML configuration file
 parser.add_argument("--config", type=lambda p: Path(p).absolute(), default=cur_file_path() / "config.yaml", help="Path to the yaml configuration file for environment setup.")
