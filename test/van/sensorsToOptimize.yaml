@@ -9,7 +9,7 @@ cameras:
     width: 1280
   name: Camera_F
   orientation:
-    pitch: 20.0
+    pitch: 10.0
     roll: 0.0
     yaw: 0.0
   position:
@@ -29,9 +29,9 @@ cameras:
     width: 1280
   name: Camera_L
   orientation:
-    pitch: 0.0
+    pitch: 10.0
     roll: 0.0
-    yaw: 70
+    yaw: 65
   position:
     x: 2
     y: 0.6
@@ -49,9 +49,9 @@ cameras:
     width: 1280
   name: Camera_R
   orientation:
-    pitch: 0.0
+    pitch: 10.0
     roll: 0.0
-    yaw: -70
+    yaw: -65
   position:
     x: 2
     y: -0.6

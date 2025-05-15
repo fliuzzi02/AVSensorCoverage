@@ -1,0 +1,177 @@
+cameras:
+- encoding: rgb8
+  fov: 70
+  lens_dirt: 0
+  max_dist: 100
+  min_dist: 0.1
+  n_pixels:
+    height: 720
+    width: 1280
+  name: Camera_F
+  orientation:
+    pitch: 10.0
+    roll: 0.0
+    yaw: 0.0
+  position:
+    x: 2
+    y: 0
+    z: 2.2
+  type: Front
+  update_hz: 30
+  uuid: F9242BF8-41AB-6ED2-7F52-FBB6A71CB418
+
+- encoding: rgb8
+  fov: 70
+  lens_dirt: 0
+  max_dist: 100
+  min_dist: 0.1
+  n_pixels:
+    height: 720
+    width: 1280
+  name: Camera_L
+  orientation:
+    pitch: 10.0
+    roll: 0.0
+    yaw: 68
+  position:
+    x: 2
+    y: 0.6
+    z: 2.2
+  type: Left
+  update_hz: 30
+  uuid: 7BB37980-44BC-FD3F-6B6D-6A9B2A17C134
+
+- encoding: rgb8
+  fov: 70
+  lens_dirt: 0
+  max_dist: 100
+  min_dist: 0.1
+  n_pixels:
+    height: 720
+    width: 1280
+  name: Camera_R
+  orientation:
+    pitch: 10.0
+    roll: 0.0
+    yaw: -68
+  position:
+    x: 2
+    y: -0.6
+    z: 2.2
+  type: Right
+  update_hz: 30
+  uuid: 81E7B24B-4316-AEFA-A7DA-EBA0D204C0DD
+
+- encoding: rgb8
+  fov: 70
+  lens_dirt: 0
+  max_dist: 100
+  min_dist: 0.1
+  n_pixels:
+    height: 720
+    width: 1280
+  name: Camera_RR
+  orientation:
+    pitch: 15.0
+    roll: 0.0
+    yaw: 180.0
+  position:
+    x: -0.8
+    y: 0
+    z: 2.2
+  type: Rear
+  update_hz: 30
+  uuid: 58303124-4456-FC82-B494-83B43E811A7E
+
+lidars:
+- detection_range: 200
+  fov_h: 360
+  fov_v: 42.2
+  min_range: 0.1
+  name: LiDAR360
+  orientation:
+    pitch: 0.0
+    roll: 0.0
+    yaw: 180.0
+  position:
+    x: 1
+    y: 0
+    z: 2.5
+  pps: 700000
+  rps: 10
+  type: Roof LiDAR
+  update_hz: 30
+  uuid: 41F12E76-4467-496B-1575-2E953418B78D
+
+radars:
+- detection_range: 100
+  fov_h: 100
+  fov_v: 40
+  min_range: 0.2
+  name: Radar_F
+  orientation:
+    pitch: 0.0
+    roll: 0.0
+    yaw: 0.0
+  position:
+    x: 2
+    y: 0
+    z: 2.2
+  source: engine
+  type: Front Radar
+  update_hz: 30
+  uuid: F0CAACE1-4899-232F-36AA-6D92264A1B10
+
+- detection_range: 100
+  fov_h: 100
+  fov_v: 40
+  min_range: 0.2
+  name: Radar_L
+  orientation:
+    pitch: 0.0
+    roll: 0.0
+    yaw: 90
+  position:
+    x: 1
+    y: 0.6
+    z: 2.2
+  source: engine
+  type: Left Radar
+  update_hz: 30
+  uuid: 81A5C57B-4293-761A-D064-209151D4B825
+
+- detection_range: 100
+  fov_h: 100
+  fov_v: 40
+  min_range: 0.2
+  name: Radar_R
+  orientation:
+    pitch: 0.0
+    roll: 0.0
+    yaw: -89.99999803884896
+  position:
+    x: 1
+    y: -0.6
+    z: 2.2
+  source: engine
+  type: Rear Radar
+  update_hz: 30
+  uuid: 70E3E48C-4C2E-BC5F-61FD-A4BAD53A9BDE
+
+- detection_range: 100
+  fov_h: 100
+  fov_v: 40
+  min_range: 0.2
+  name: Radar_RR
+  orientation:
+    pitch: 0.0
+    roll: 0.0
+    yaw: 180.0
+  position:
+    x: -0.7
+    y: 0
+    z: 2.2
+  source: engine
+  type: Rear Radar
+  update_hz: 30
+  uuid: 2393ED2E-44F6-A36A-5A67-EDB9450DC685
