@@ -1,0 +1,67 @@
+cameras:
+- fov: 70
+  max_dist: 100
+  min_dist: 0.1
+  n_pixels:
+    height: 720
+    width: 1280
+  name: Camera_F
+  orientation:
+    pitch: 0.0
+    roll: 0.0
+    yaw: 0.0
+  position:
+    x: 1.350000023841858
+    y: 0.0
+    z: 1.5499999523162842
+  type: Camera
+- fov: 70
+  max_dist: 100
+  min_dist: 0.1
+  n_pixels:
+    height: 720
+    width: 1280
+  name: Camera_L
+  orientation:
+    pitch: -170.01417745363744
+    roll: -180.0
+    yaw: -36.756088890040665
+  position:
+    x: 0.2474117284162396
+    y: 0.5889952736008687
+    z: 1.6460683055591556
+  type: Camera
+- fov: 70
+  max_dist: 100
+  min_dist: 0.1
+  n_pixels:
+    height: 720
+    width: 1280
+  name: Camera_R
+  orientation:
+    pitch: 9.986118098877455
+    roll: -7.951386703658792e-16
+    yaw: -51.71756955984371
+  position:
+    x: 0.003772746239419705
+    y: -0.4435444989421713
+    z: 1.6563360374633287
+  type: Camera
+- fov: 70
+  max_dist: 100
+  min_dist: 0.1
+  n_pixels:
+    height: 720
+    width: 1280
+  name: Camera_RR
+  orientation:
+    pitch: -170.0786853730207
+    roll: -180.0
+    yaw: 35.22514373216906
+  position:
+    x: 1.499061327007321
+    y: 0.5978454993994428
+    z: 1.6803530231649888
+  type: Camera
+lidars: []
+radars: []
