@@ -1,8 +1,8 @@
 # Grid Settings
-dim_x: 50
-dim_y: 30
-dim_z: 3
-spacing: 0.1
+dim_x: 200
+dim_y: 40
+dim_z: 2.8
+spacing: 0.3
 origin: [0, 0, 0]
 nearfield_dist: 2
 advanced: True
